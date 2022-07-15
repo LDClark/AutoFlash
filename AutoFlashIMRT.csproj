@@ -8,8 +8,8 @@
     <ProjectGuid>{9E471C80-394E-4E7E-A485-62BD7F77644F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoRing_SIB</RootNamespace>
-    <AssemblyName>AutoRing_SIB_1.0.0.37.esapi</AssemblyName>
+    <RootNamespace>AutoFlashIMRT</RootNamespace>
+    <AssemblyName>AutoFlashIMRT_1.0.0.24.esapi</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -102,7 +102,6 @@
     <Compile Include="DialogService\IDialogService.cs" />
     <Compile Include="DialogService\SimpleProgress.cs" />
     <Compile Include="Esapi\EsapiService.cs" />
-    <Compile Include="Esapi\Extensions.cs" />
     <Compile Include="Esapi\IEsapiService.cs" />
     <Compile Include="Esapi\Plan.cs" />
     <Compile Include="Esapi\Struct.cs" />
@@ -110,7 +109,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Helpers\Helpers.cs" />
-    <Compile Include="Esapi\RingGeneration.cs" />
+    <Compile Include="Esapi\StructureGeneration.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace AutoRingSIB
+namespace AutoFlashIMRT
 {
     public partial class ProgressDialog : Window
     {

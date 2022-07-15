@@ -1,11 +1,11 @@
 <Window
-    x:Class="AutoRingSIB.MainWindow"
+    x:Class="AutoFlashIMRT.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-    Title="AutoRing SIB"
-    Height="750" Width="1000"
+    Title="AutoFlashIMRT"
+    Height="900" Width="800"
     WindowStartupLocation="CenterScreen" Background="#FF343434" >
     <Window.Resources>
         <CollectionViewSource x:Key="StructureSets" Source="{Binding StructureSets}">
@@ -13,47 +13,26 @@
                 <cm:SortDescription PropertyName="CreationDate" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        <CollectionViewSource x:Key="StructuresHigh" Source="{Binding StructuresHigh}">
+        <CollectionViewSource x:Key="StructuresPTVBreast" Source="{Binding StructuresPTVBreast}">
             <CollectionViewSource.SortDescriptions>
                 <cm:SortDescription PropertyName="StructureId" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        <CollectionViewSource x:Key="StructuresMid" Source="{Binding StructuresMid}">
+        <CollectionViewSource x:Key="StructuresPTVSCV" Source="{Binding StructuresPTVSCV}">
             <CollectionViewSource.SortDescriptions>
                 <cm:SortDescription PropertyName="StructureId" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        <CollectionViewSource x:Key="StructuresLow" Source="{Binding StructuresLow}">
+        <CollectionViewSource x:Key="StructuresPTVAxilla" Source="{Binding StructuresPTVAxilla}">
             <CollectionViewSource.SortDescriptions>
                 <cm:SortDescription PropertyName="StructureId" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        <CollectionViewSource x:Key="StructuresVeryLow" Source="{Binding StructuresVeryLow}">
+        <CollectionViewSource x:Key="StructuresPTVIMN" Source="{Binding StructuresPTVIMN}">
             <CollectionViewSource.SortDescriptions>
                 <cm:SortDescription PropertyName="StructureId" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        <CollectionViewSource x:Key="StructuresRingHigh" Source="{Binding StructuresRingHigh}">
-            <CollectionViewSource.SortDescriptions>
-                <cm:SortDescription PropertyName="StructureId" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        <CollectionViewSource x:Key="StructuresRingMid" Source="{Binding StructuresRingMid}">
-            <CollectionViewSource.SortDescriptions>
-                <cm:SortDescription PropertyName="StructureId" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        <CollectionViewSource x:Key="StructuresRingLow" Source="{Binding StructuresRingLow}">
-            <CollectionViewSource.SortDescriptions>
-                <cm:SortDescription PropertyName="StructureId" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        <CollectionViewSource x:Key="StructuresRingVeryLow" Source="{Binding StructuresRingVeryLow}">
-            <CollectionViewSource.SortDescriptions>
-                <cm:SortDescription PropertyName="StructureId" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        
         <Style TargetType="{x:Type ListBoxItem}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -99,6 +78,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -108,17 +90,18 @@
             </Grid.ColumnDefinitions>
             <!--Labels-->
             <Label Content="Select structure set" Grid.Column="0" Grid.Row="0" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Select PTV High" Grid.Column="0" Grid.Row="1" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Select PTV Mid" Grid.Column="0" Grid.Row="2" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Select PTV Low" Grid.Column="0" Grid.Row="3" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Select PTV VeryLow" Grid.Column="0" Grid.Row="4" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Select RingHigh" Grid.Column="2" Grid.Row="1" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Select RingMid" Grid.Column="2" Grid.Row="2" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Select RingLow" Grid.Column="2" Grid.Row="3" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Select RingVeryLow" Grid.Column="2" Grid.Row="4" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Outer ring margin (cm)" Grid.Column="0" Grid.Row="5" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Inner ring margin (cm)" Grid.Column="0" Grid.Row="6" Margin="15,15,10,10" Foreground="White"/>
-
+            <Label Content="Select PTV Breast" Grid.Column="0" Grid.Row="1" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Select PTV SCV" Grid.Column="0" Grid.Row="2" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Select PTV Axilla" Grid.Column="0" Grid.Row="3" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Select PTV IMN" Grid.Column="0" Grid.Row="4" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Laterality" Grid.Column="0" Grid.Row="5" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Anterior margin (cm)" Grid.Column="0" Grid.Row="6" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Lateral margin (cm)" Grid.Column="2" Grid.Row="6" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Ring 100% outer margin (cm)" Grid.Column="0" Grid.Row="7" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Ring 100% inner margin (cm)" Grid.Column="0" Grid.Row="8" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Ring 50% outer margin (cm)" Grid.Column="2" Grid.Row="7" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Ring 50% inner margin (cm)" Grid.Column="2" Grid.Row="8" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Lung opt margin (cm)" Grid.Column="0" Grid.Row="9" Margin="15,15,10,10" Foreground="White"/>
             <!--Input-->
             <ListBox
                     x:Name="structureSetSelection"
@@ -173,14 +156,14 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <ListBox
-                    x:Name="PTVHighSelection"
+                    x:Name="PTVBreastSelection"
                     Grid.Column="1" 
                     Grid.Row="1" 
                     Width="300" 
                     Height="80"  
                     Margin="15,15,10,15" 
-                    ItemsSource="{Binding Source={StaticResource StructuresHigh}}"
-                    SelectedItem="{Binding SelectedStructurePTVHigh, NotifyOnSourceUpdated=True}"
+                    ItemsSource="{Binding Source={StaticResource StructuresPTVBreast}}"
+                    SelectedItem="{Binding SelectedStructurePTVBreast, NotifyOnSourceUpdated=True}"
                     Background="Black"
                     Foreground="White">
                 <ListBox.ItemTemplate>
@@ -190,14 +173,14 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <ListBox 
-                     x:Name="PTVMidSelection"
+                     x:Name="PTVSCVSelection"
                      Grid.Column="1" 
                      Grid.Row="2" 
                      Width="300" 
                      Height="80"  
                      Margin="15,15,10,15" 
-                     ItemsSource="{Binding Source={StaticResource StructuresMid}}"
-                     SelectedItem="{Binding SelectedStructurePTVMid, NotifyOnSourceUpdated=True}"
+                     ItemsSource="{Binding Source={StaticResource StructuresPTVSCV}}"
+                     SelectedItem="{Binding SelectedStructurePTVSCV, NotifyOnSourceUpdated=True}"
                      IsSynchronizedWithCurrentItem="False"
                      SelectedIndex="-1"
                      Background="Black"
@@ -210,14 +193,14 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <ListBox 
-                     x:Name="PTVLowSelection"
+                     x:Name="PTVAxillaSelection"
                      Grid.Column="1" 
                      Grid.Row="3" 
                      Width="300" 
                      Height="80"  
                      Margin="15,15,10,15" 
-                     ItemsSource="{Binding Source={StaticResource StructuresLow}}"
-                     SelectedItem="{Binding SelectedStructurePTVLow, NotifyOnSourceUpdated=True}"
+                     ItemsSource="{Binding Source={StaticResource StructuresPTVAxilla}}"
+                     SelectedItem="{Binding SelectedStructurePTVAxilla, NotifyOnSourceUpdated=True}"
                      IsSynchronizedWithCurrentItem="False"
                      SelectedIndex="-1"
                      Background="Black"
@@ -230,244 +213,144 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <ListBox 
-                     x:Name="PTVVeryLowSelection"
+                     x:Name="PTVIMNLowSelection"
                      Grid.Column="1" 
                      Grid.Row="4" 
                      Width="300" 
                      Height="80"  
                      Margin="15,15,10,15" 
-                     ItemsSource="{Binding Source={StaticResource StructuresVeryLow}}"
-                     SelectedItem="{Binding StructuresVeryLow, NotifyOnSourceUpdated=True}"
+                     ItemsSource="{Binding Source={StaticResource StructuresPTVIMN}}"
+                     SelectedItem="{Binding StructuresPTVIMN, NotifyOnSourceUpdated=True}"
                      IsSynchronizedWithCurrentItem="False"
                      SelectedIndex="-1"
                      Background="Black"
                      Foreground="White"
                      >
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding StructureId}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <ListBox
-                    x:Name="RingHighSelection"
-                    Grid.Column="3" 
-                    Grid.Row="1" 
-                    Width="300" 
-                    Height="80"  
-                    Margin="15,15,10,15" 
-                    ItemsSource="{Binding Source={StaticResource StructuresRingHigh}}"
-                    SelectedItem="{Binding SelectedStructureRingHigh, NotifyOnSourceUpdated=True}"
-                    Background="Black"
-                    Foreground="White">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding StructureId}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="IsEnabled" Value="{Binding CanModify}"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Name="_Border" Padding="2" SnapsToDevicePixels="true">
-                                        <ContentPresenter />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="_Border" Property="Background">
-                                                <Setter.Value>
-                                                    <LinearGradientBrush EndPoint="0,1" StartPoint="1,0">
-                                                        <GradientStop Color="#FF217899" Offset="1"/>
-                                                        <GradientStop Color="#FF2C91B8" Offset="0"/>
-                                                    </LinearGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Foreground" Value="DarkGray"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
-            <ListBox
-                    x:Name="RingMidSelection"
-                    Grid.Column="3" 
-                    Grid.Row="2" 
-                    Width="300" 
-                    Height="80"  
-                    Margin="15,15,10,15" 
-                    ItemsSource="{Binding Source={StaticResource StructuresRingMid}}"
-                    SelectedItem="{Binding SelectedStructureRingMid, NotifyOnSourceUpdated=True}"
-                    Background="Black"
-                    Foreground="White">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding StructureId}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="IsEnabled" Value="{Binding CanModify}"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Name="_Border" Padding="2" SnapsToDevicePixels="true">
-                                        <ContentPresenter />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="_Border" Property="Background">
-                                                <Setter.Value>
-                                                    <LinearGradientBrush EndPoint="0,1" StartPoint="1,0">
-                                                        <GradientStop Color="#FF217899" Offset="1"/>
-                                                        <GradientStop Color="#FF2C91B8" Offset="0"/>
-                                                    </LinearGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Foreground" Value="DarkGray"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
-            <ListBox
-                    x:Name="RingLowSelection"
-                    Grid.Column="3" 
-                    Grid.Row="3" 
-                    Width="300" 
-                    Height="80"  
-                    Margin="15,15,10,15" 
-                    ItemsSource="{Binding Source={StaticResource StructuresRingLow}}"
-                    SelectedItem="{Binding SelectedStructureRingLow, NotifyOnSourceUpdated=True}"
-                    Background="Black"
-                    Foreground="White">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding StructureId}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="IsEnabled" Value="{Binding CanModify}"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Name="_Border" Padding="2" SnapsToDevicePixels="true">
-                                        <ContentPresenter />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="_Border" Property="Background">
-                                                <Setter.Value>
-                                                    <LinearGradientBrush EndPoint="0,1" StartPoint="1,0">
-                                                        <GradientStop Color="#FF217899" Offset="1"/>
-                                                        <GradientStop Color="#FF2C91B8" Offset="0"/>
-                                                    </LinearGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Foreground" Value="DarkGray"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
-            <ListBox
-                    x:Name="RingVeryLowSelection"
-                    Grid.Column="3" 
-                    Grid.Row="4" 
-                    Width="300" 
-                    Height="80"  
-                    Margin="15,15,10,15" 
-                    ItemsSource="{Binding Source={StaticResource StructuresRingVeryLow}}"
-                    SelectedItem="{Binding SelectedStructureRingVeryLow, NotifyOnSourceUpdated=True}"
-                    Background="Black"
-                    Foreground="White">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding StructureId}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="IsEnabled" Value="{Binding CanModify}"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Name="_Border" Padding="2" SnapsToDevicePixels="true">
-                                        <ContentPresenter />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="_Border" Property="Background">
-                                                <Setter.Value>
-                                                    <LinearGradientBrush EndPoint="0,1" StartPoint="1,0">
-                                                        <GradientStop Color="#FF217899" Offset="1"/>
-                                                        <GradientStop Color="#FF2C91B8" Offset="0"/>
-                                                    </LinearGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Foreground" Value="DarkGray"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+            <ComboBox x:Name="LateralityComboBox"
+                        FontSize="12"
+                        SelectedValue="{Binding SelectedLaterality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   
+                        SelectedValuePath = "Content"
+                        Background="Black"
+                        Grid.Column="1" 
+                        Grid.Row="5" 
+                        Width="100" 
+                        Height="30"  
+                        HorizontalAlignment="Left">
+                <ComboBoxItem Content="Left"/>
+                <ComboBoxItem Content="Right"/>
+            </ComboBox>
             <TextBox
-                Name="OuterMarginText"
-                Text="{Binding OuterMargin}"                
-                Grid.Column="1" 
-                Grid.Row="5" 
-                Width="40" 
-                Height="30"  
-                Background="Black"
-                Foreground="White"
-                />
-            <TextBox
-                Name="InnerMarginText"
-                Text="{Binding InnerMargin}"
+                Name="AnteriorMarginText"
+                Text="{Binding AnteriorMargin}"                
                 Grid.Column="1" 
                 Grid.Row="6" 
                 Width="40" 
                 Height="30"  
                 Background="Black"
                 Foreground="White"
+                HorizontalAlignment="Left"
+                />
+            <TextBox
+                Name="LateralMarginText"
+                Text="{Binding LateralMargin}"                
+                Grid.Column="3" 
+                Grid.Row="6" 
+                Width="40" 
+                Height="30"  
+                Background="Black"
+                Foreground="White"
+                HorizontalAlignment="Left"
+                />
+            <TextBox
+                Name="OuterMargin100Text"
+                Text="{Binding OuterMargin100}"
+                Grid.Column="1" 
+                Grid.Row="7" 
+                Width="40" 
+                Height="30"  
+                Background="Black"
+                Foreground="White"
+                HorizontalAlignment="Left"
+                />
+            <TextBox
+                Name="InnerMargin100Text"
+                Text="{Binding InnerMargin100}"
+                Grid.Column="1" 
+                Grid.Row="8" 
+                Width="40" 
+                Height="30"  
+                Background="Black"
+                Foreground="White"
+                HorizontalAlignment="Left"
+                />
+            <TextBox
+                Name="OuterMargin50Text"
+                Text="{Binding OuterMargin50}"                
+                Grid.Column="3" 
+                Grid.Row="7" 
+                Width="40" 
+                Height="30"  
+                Background="Black"
+                Foreground="White"
+                />
+            <TextBox
+                Name="InnerMargin50Text"
+                Text="{Binding InnerMargin50}"                
+                Grid.Column="3" 
+                Grid.Row="8" 
+                Width="40" 
+                Height="30"  
+                Background="Black"
+                Foreground="White"
+                />
+            <TextBox
+                Name="LungOptMarginText"
+                Text="{Binding LungOptMargin}"                
+                Grid.Column="1" 
+                Grid.Row="9" 
+                Width="40" 
+                Height="30"  
+                Background="Black"
+                Foreground="White"
+                HorizontalAlignment="Left"
                 />
         </Grid>
-        <Button x:Name="m_okButton"  Content="Create" Width="100" Margin="15" Command="{Binding GetRingsCommand}">
+        <Button x:Name="m_okButton"  Content="Create" Width="100" Margin="15" Command="{Binding CreateStructuresCommand}">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding SelectedItem.CanModify, ElementName=structureSetSelection, UpdateSourceTrigger=PropertyChanged}" Value="False">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding SelectedItem.StructureId.Length, ElementName=PTVHighSelection, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                        <DataTrigger Binding="{Binding SelectedItem.StructureId.Length, ElementName=PTVBreastSelection, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=OuterMarginText, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=AnteriorMarginText, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Text.Length, ElementName=InnerMarginText, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=LateralMarginText, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=OuterMargin100Text, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=OuterMargin50Text, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=InnerMargin100Text, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=InnerMargin50Text, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=LungOptMarginText, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                     </Style.Triggers>

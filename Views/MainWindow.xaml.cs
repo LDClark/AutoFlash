@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Interactivity;
 
-namespace AutoRingSIB
+namespace AutoFlashIMRT
 {
     public partial class MainWindow : Window
     {

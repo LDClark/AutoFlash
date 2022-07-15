@@ -2,9 +2,10 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace AutoRingSIB
+namespace AutoFlashIMRT
 {
     public class MainViewModel : ViewModelBase
     {
@@ -14,54 +15,6 @@ namespace AutoRingSIB
         {
             _esapiService = esapiService;
             _dialogService = dialogService;
-        }
-        private Struct[] _structuresHigh;
-        public Struct[] StructuresHigh
-        {
-            get => _structuresHigh;
-            set => Set(ref _structuresHigh, value);
-        }
-        private Struct[] _structuresMid;
-        public Struct[] StructuresMid
-        {
-            get => _structuresMid;
-            set => Set(ref _structuresMid, value);
-        }
-        private Struct[] _structuresLow;
-        public Struct[] StructuresLow
-        {
-            get => _structuresLow;
-            set => Set(ref _structuresLow, value);
-        }
-        private Struct[] _structuresVeryLow;
-        public Struct[] StructuresVeryLow
-        {
-            get => _structuresVeryLow;
-            set => Set(ref _structuresVeryLow, value);
-        }
-        private Struct[] _structuresRingHigh;
-        public Struct[] StructuresRingHigh
-        {
-            get => _structuresRingHigh;
-            set => Set(ref _structuresRingHigh, value);
-        }
-        private Struct[] _structuresRingMid;
-        public Struct[] StructuresRingMid
-        {
-            get => _structuresRingMid;
-            set => Set(ref _structuresRingMid, value);
-        }
-        private Struct[] _structuresRingLow;
-        public Struct[] StructuresRingLow
-        {
-            get => _structuresRingLow;
-            set => Set(ref _structuresRingLow, value);
-        }
-        private Struct[] _structuresRingVeryLow;
-        public Struct[] StructuresRingVeryLow
-        {
-            get => _structuresRingVeryLow;
-            set => Set(ref _structuresRingVeryLow, value);
         }
         private StructSet[] _structureSets;
         public StructSet[] StructureSets
@@ -75,163 +28,152 @@ namespace AutoRingSIB
             get => _selectedStructureSet;
             set => Set(ref _selectedStructureSet, value);
         }
-        private Struct _selectedStructurePTVHigh;
-        public Struct SelectedStructurePTVHigh
+        private Struct[] _structuresPTVBreast;
+        public Struct[] StructuresPTVBreast
         {
-            get => _selectedStructurePTVHigh;
-            set => Set(ref _selectedStructurePTVHigh, value);
+            get => _structuresPTVBreast;
+            set => Set(ref _structuresPTVBreast, value);
         }
-        private Struct _selectedStructurePTVMid;
-        public Struct SelectedStructurePTVMid
+        private Struct[] _structuresPTVSCV;
+        public Struct[] StructuresPTVSCV
         {
-            get => _selectedStructurePTVMid;
-            set => Set(ref _selectedStructurePTVMid, value);
+            get => _structuresPTVSCV;
+            set => Set(ref _structuresPTVSCV, value);
         }
-        private Struct _selectedStructurePTVLow;
-        public Struct SelectedStructurePTVLow
+        private Struct[] _structuresPTVAxilla;
+        public Struct[] StructuresPTVAxilla
         {
-            get => _selectedStructurePTVLow;
-            set => Set(ref _selectedStructurePTVLow, value);
+            get => _structuresPTVAxilla;
+            set => Set(ref _structuresPTVAxilla, value);
         }
-        private Struct _selectedStructurePTVVeryLow;
-        public Struct SelectedStructurePTVVeryLow
+        private Struct[] _structuresPTVIMN;
+        public Struct[] StructuresPTVIMN
         {
-            get => _selectedStructurePTVVeryLow;
-            set => Set(ref _selectedStructurePTVVeryLow, value);
+            get => _structuresPTVIMN;
+            set => Set(ref _structuresPTVIMN, value);
         }
-        private Struct _selectedStructureRingHigh;
-        public Struct SelectedStructureRingHigh
+        private Struct _selectedStructurePTVBreast;
+        public Struct SelectedStructurePTVBreast
         {
-            get => _selectedStructureRingHigh;
-            set => Set(ref _selectedStructureRingHigh, value);
+            get => _selectedStructurePTVBreast;
+            set => Set(ref _selectedStructurePTVBreast, value);
         }
-        private Struct _selectedStructureRingMid;
-        public Struct SelectedStructureRingMid
+        private Struct _selectedStructurePTVSCV;
+        public Struct SelectedStructurePTVSCV
         {
-            get => _selectedStructureRingMid;
-            set => Set(ref _selectedStructureRingMid, value);
+            get => _selectedStructurePTVSCV;
+            set => Set(ref _selectedStructurePTVSCV, value);
         }
-        private Struct _selectedStructureRingLow;
-        public Struct SelectedStructureRingLow
+        private Struct _selectedStructurePTVAxilla;
+        public Struct SelectedStructurePTVAxilla
         {
-            get => _selectedStructureRingLow;
-            set => Set(ref _selectedStructureRingLow, value);
+            get => _selectedStructurePTVAxilla;
+            set => Set(ref _selectedStructurePTVAxilla, value);
         }
-        private Struct _selectedStructureRingVeryLow;
-        public Struct SelectedStructureRingVeryLow
+        private Struct _selectedStructurePTVIMN;
+        public Struct SelectedStructurePTVIMN
         {
-            get => _selectedStructureRingVeryLow;
-            set => Set(ref _selectedStructureRingVeryLow, value);
+            get => _selectedStructurePTVIMN;
+            set => Set(ref _selectedStructurePTVIMN, value);
         }
-        public string InnerMargin { get; set; }
-        public string OuterMargin { get; set; }
+        private string _selectedLaterality;
+        public string SelectedLaterality
+        {
+            get => _selectedLaterality;
+            set => Set(ref _selectedLaterality, value);
+        }
+        private string _anteriorMargin;
+        public string AnteriorMargin
+        {
+            get => _anteriorMargin;
+            set => Set(ref _anteriorMargin, value);
+        }
+        private string _lateralMargin;
+        public string LateralMargin
+        {
+            get => _lateralMargin;
+            set => Set(ref _lateralMargin, value);
+        }
+        private string _outerMargin100;
+        public string OuterMargin100
+        {
+            get => _outerMargin100;
+            set => Set(ref _outerMargin100, value);
+        }
+        private string _innerMargin100;
+        public string InnerMargin100
+        {
+            get => _innerMargin100;
+            set => Set(ref _innerMargin100, value);
+        }
+        private string _outerMargin50;
+        public string OuterMargin50
+        {
+            get => _outerMargin50;
+            set => Set(ref _outerMargin50, value);
+        }
+        private string _innerMargin50;
+        public string InnerMargin50
+        {
+            get => _innerMargin50;
+            set => Set(ref _innerMargin50, value);
+        }
+        private string _lungOptMargin;
+        public string LungOptMargin
+        {
+            get => _lungOptMargin;
+            set => Set(ref _lungOptMargin, value);
+        }
         public ICommand StartCommand => new RelayCommand(Start);
         public ICommand GetStructuresCommand => new RelayCommand(GetStructures);
-        public ICommand GetRingsCommand => new RelayCommand(CreateRings);
+        public ICommand CreateStructuresCommand => new RelayCommand(CreateStructures);
 
         private async void Start()
         {
-            StructureSets = await _esapiService.GetStructureSetsAsync();         
+            AnteriorMargin = "1";
+            LateralMargin = "1";
+            OuterMargin100 = "3";
+            OuterMargin50 = "5";
+            InnerMargin100 = "-0.5";
+            InnerMargin50 = "-1.5";
+            LungOptMargin = "1.5";
+            StructureSets = await _esapiService.GetStructureSetsAsync();
         }
 
         private async void GetStructures()
         {
-            StructuresHigh = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "TV");
-            StructuresMid = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "TV");
-            StructuresLow = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "TV");
-            StructuresVeryLow = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "TV");
-            StructuresRingHigh = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "RingHigh");
-            StructuresRingMid = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "RingMid");
-            StructuresRingLow = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "RingLow");
-            StructuresRingVeryLow = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "RingVeryLow");
+            StructuresPTVBreast = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "PTV");
+            StructuresPTVSCV = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "PTV");
+            StructuresPTVAxilla = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "PTV");
+            StructuresPTVIMN = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "PTV");
         }
 
-        private async void CreateRings()
+        private async void CreateStructures()
         {
             string selectedStructureSetId = SelectedStructureSet?.StructureSetId;
-            string ptvHighId = SelectedStructurePTVHigh?.StructureId;
-            string ptvMidId = SelectedStructurePTVMid?.StructureId;
-            string ptvLowId = SelectedStructurePTVLow?.StructureId;
-            string ptvVeryLowId = SelectedStructurePTVVeryLow?.StructureId;
+            string ptvBreastId = SelectedStructurePTVBreast?.StructureId;
+            string ptvSCVId = SelectedStructurePTVSCV?.StructureId;
+            string ptvAxillaId = SelectedStructurePTVAxilla?.StructureId;
+            string ptvIMNId = SelectedStructurePTVIMN?.StructureId;
 
-            string ringHighId = SelectedStructureRingHigh?.StructureId;
-            string ringMidId = SelectedStructureRingMid?.StructureId;
-            string ringLowId = SelectedStructureRingLow?.StructureId;
-            string ringVeryLowId = SelectedStructureRingVeryLow?.StructureId;
+            string laterality = SelectedLaterality;
 
-            double innerMargin = Convert.ToDouble(InnerMargin) * 10;
-            double outerMargin = Convert.ToDouble(OuterMargin) * 10;
+            double anteriorMargin = Convert.ToDouble(AnteriorMargin) * 10;
+            double lateralMargin = Convert.ToDouble(LateralMargin) * 10;
 
-            _dialogService.ShowProgressDialog("Getting ring high...",
+            double innerMargin100 = Convert.ToDouble(InnerMargin100) * 10;
+            double outerMargin100 = Convert.ToDouble(OuterMargin100) * 10;
+            double innerMargin50 = Convert.ToDouble(InnerMargin50) * 10;
+            double outerMargin50 = Convert.ToDouble(OuterMargin50) * 10;
+
+            double lungOptMargin = Convert.ToDouble(LungOptMargin) * 10;
+
+
+            _dialogService.ShowProgressDialog("Creating structures...",
                 async progress =>
                 {
-                    if (ringHighId == "<Create new structure>")
-                        ringHighId = await _esapiService.GetEditableRingNameAsync(selectedStructureSetId, "RingHigh");
-                });
-
-            _dialogService.ShowProgressDialog("Getting ring mid...",
-                async progress =>
-                {
-                    if (ringMidId == "<Create new structure>")
-                        ringMidId = await _esapiService.GetEditableRingNameAsync(selectedStructureSetId, "RingMid");
-                });
-
-            _dialogService.ShowProgressDialog("Getting ring low...",
-                async progress =>
-                {
-                    if (ringLowId == "<Create new structure>")
-                        ringLowId = await _esapiService.GetEditableRingNameAsync(selectedStructureSetId, "RingLow");
-                });
-
-            _dialogService.ShowProgressDialog("Getting ring very low...",
-                async progress =>
-                {
-                    if (ringVeryLowId == "<Create new structure>")
-                        ringVeryLowId = await _esapiService.GetEditableRingNameAsync(selectedStructureSetId, "RingVeryLow");
-                });
-
-            _dialogService.ShowProgressDialog("Adding RingHigh...",
-                async progress =>
-                {
-                    await _esapiService.AddRingAsync(selectedStructureSetId, ptvHighId, ringHighId, innerMargin, outerMargin);                    
-                });
-
-            if (ptvMidId != null)
-            {
-                _dialogService.ShowProgressDialog("Adding RingMid...",
-                    async progress =>
-                    {
-                        await _esapiService.AddRingAsync(selectedStructureSetId, ptvMidId, ringMidId, innerMargin, outerMargin);
-                    });
-            }
-
-            if (ptvLowId != null)
-            {
-                _dialogService.ShowProgressDialog("Adding RingLow...",
-                async progress =>
-                {
-                    await _esapiService.AddRingAsync(selectedStructureSetId, ptvLowId, ringLowId, innerMargin, outerMargin);
-                });
-            }
-
-            if (ptvVeryLowId != null)
-            {
-                _dialogService.ShowProgressDialog("Adding RingVeryLow...",
-                async progress =>
-                {
-                    await _esapiService.AddRingAsync(selectedStructureSetId, ptvVeryLowId, ringVeryLowId, innerMargin, outerMargin);
-                });
-            }
-
-            _dialogService.ShowProgressDialog("Cleaning up rings...",
-                async progress =>
-                {
-                    //MessageBox.Show(selectedStructureSetId + "," + ptvHighId + "," + ptvMidId + "," + ptvLowId + "," + ptvVeryLowId + "," + ringHighId + "," + ringMidId + "," + ringLowId + "," + ringVeryLowId);
-                    await _esapiService.CleanUpRingsAsync(selectedStructureSetId, ptvHighId, ptvMidId, ptvLowId, ptvVeryLowId, ringHighId, ringMidId, ringLowId, ringVeryLowId);
-                    StructuresRingHigh = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "RingHigh");
-                    StructuresRingMid = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "RingMid");
-                    StructuresRingLow = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "RingLow");
-                    StructuresRingVeryLow = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "RingVeryLow");
+                    await _esapiService.AddStructuresAsync(selectedStructureSetId, ptvBreastId, ptvSCVId, ptvAxillaId, ptvIMNId, laterality, anteriorMargin, lateralMargin,
+                        outerMargin100, innerMargin100, outerMargin50, innerMargin50);
                 });
         }
     }

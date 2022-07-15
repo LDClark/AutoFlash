@@ -1,4 +1,4 @@
-﻿namespace AutoRingSIB
+﻿namespace AutoFlashIMRT
 {
     public class Plan
     {

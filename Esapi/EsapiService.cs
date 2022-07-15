@@ -4,15 +4,15 @@ using EsapiEssentials.Plugin;
 using VMS.TPS.Common.Model.API;
 using System;
 
-namespace AutoRingSIB
+namespace AutoFlashIMRT
 {
     public class EsapiService : EsapiServiceBase<PluginScriptContext>, IEsapiService
     {
-        private readonly RingGeneration _planGeneration;
+        private readonly StructureGeneration _planGeneration;
 
         public EsapiService(PluginScriptContext context) : base(context)
         {
-            _planGeneration = new RingGeneration();
+            _planGeneration = new StructureGeneration();
         }
 
         public Task<StructSet[]> GetStructureSetsAsync() =>
@@ -43,57 +43,20 @@ namespace AutoRingSIB
                             IsHighRes = x.IsHighResolution
                         })
                         .ToArray();
-                if (keyword.Contains("Ring"))
-                {
-                    Struct[] newArray = new Struct[array.Length + 1];
-                    newArray[0] = new Struct
-                    {
-                        StructureId = "<Create new structure>",
-                        CanModify = true,
-                        //IsHighRes = true
-                    };
-                    Array.Copy(array, 0, newArray, 1, array.Length);
-                    return newArray;
-                }
                 return array;
             });
 
-        public Task<string> GetEditableRingNameAsync(string structureSetId, string ringId) =>
-            RunAsync(context => GetEditableRingName(context.Patient, structureSetId, ringId));
+        public Task AddStructuresAsync(string selectedStructureSetId, string ptvBreastId, string ptvSCVId, string ptvAxillaId, string ptvIMNId,
+            string laterality, double anteriorMargin, double lateralMargin, double outerMargin100, double innerMargin100, double outerMargin50, double innerMargin50) =>
+            RunAsync(context => AddStructures(context.Patient, selectedStructureSetId, ptvBreastId, ptvSCVId, ptvAxillaId, ptvIMNId, laterality, anteriorMargin, lateralMargin,
+                outerMargin100, innerMargin100, outerMargin50, innerMargin50));
 
-        public string GetEditableRingName(Patient patient, string structureSetId, string ringId)
+        public void AddStructures(Patient patient, string selectedStructureSetId, string ptvBreastId, string ptvSCVId, string ptvAxillaId, string ptvIMNId, string laterality,
+            double anteriorMargin, double lateralMargin, double outerMargin100, double innerMargin100, double outerMargin50, double innerMargin50)
         {
-            StructureSet structureSet = patient.StructureSets.FirstOrDefault(x => x.Id == structureSetId);
-
-            if (structureSet.Structures.Any(x => x.Id == ringId) == false) //Any ring isnt present
-            {
-                return ringId;
-            }
-
-            for (int i = 1; i <= 5; i++)
-            {
-                if (structureSet.Structures.Any(x => x.Id == ringId + i.ToString()) == false)  //possible not present
-                    return ringId + i.ToString();
-            }
-            throw new Exception("Too many uneditable rings in structure set.");
-        }
-
-        public Task AddRingAsync(string structureSetId, string ptvId, string ringId, double innerMargin, double outerMargin) =>
-            RunAsync(context => AddRing(context.Patient, structureSetId, ptvId, ringId, innerMargin, outerMargin));
-
-        public void AddRing(Patient patient, string structureSetId, string ptvId, string ringId, double innerMargin, double outerMargin)
-        {
-            StructureSet structureSet = patient.StructureSets.FirstOrDefault(x => x.Id == structureSetId);
-            _planGeneration.CreateRingFromPTV(structureSet, ptvId, ringId, innerMargin, outerMargin);           
-        }
-
-        public Task CleanUpRingsAsync(string structureSetId, string ptvHighId, string ptvMidId, string ptvLowId, string ptv4Id, string ringHighId, string ringMidId, string ringLowId, string ring4Id) =>
-            RunAsync(context => CleanUpRings(context.Patient, structureSetId, ptvHighId, ptvMidId, ptvLowId, ptv4Id, ringHighId, ringMidId, ringLowId, ring4Id));
-
-        public void CleanUpRings(Patient patient, string structureSetId, string ptvHighId, string ptvMidId, string ptvLowId, string ptv4Id, string ringHighId, string ringMidId, string ringLowId, string ring4Id)
-        {
-            StructureSet structureSet = patient.StructureSets.FirstOrDefault(x => x.Id == structureSetId);
-            _planGeneration.CleanUpRings(structureSet, ptvHighId, ptvMidId, ptvLowId, ptv4Id, ringHighId, ringMidId, ringLowId, ring4Id);
+            StructureSet structureSet = patient.StructureSets.FirstOrDefault(x => x.Id == selectedStructureSetId);
+            _planGeneration.CreateStructures(structureSet, ptvBreastId, ptvSCVId, ptvAxillaId,ptvIMNId, laterality, anteriorMargin, lateralMargin, outerMargin100, innerMargin100,
+                outerMargin50, innerMargin50);           
         }
     }
 }

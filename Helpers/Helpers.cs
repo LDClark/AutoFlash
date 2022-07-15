@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using VMS.TPS.Common.Model.API;
 
-namespace AutoRingSIB
+namespace AutoFlashIMRT
 {
     public static class Helpers
     {
+        private static Course GetCourse(Patient patient, string courseId) =>
+            patient?.Courses?.FirstOrDefault(x => x.Id == courseId);
+
+        public static Structure GetStructure(PlanningItem plan, string structureId) =>
+            plan?.StructureSet?.Structures?.FirstOrDefault(x => x.Id == structureId);
         public static bool CheckStructure(Structure structure)
         {
             if (structure.ApprovalHistory.FirstOrDefault().ApprovalStatus == VMS.TPS.Common.Model.Types.StructureApprovalStatus.Approved)
@@ -26,8 +31,12 @@ namespace AutoRingSIB
                     {
                         if (course.CompletedDateTime == null) //course is active and can modify ss
                             canModifyStructureSet = true;
-                        else  //course is completed and cannot modify ss
-                            return false;
+                        if (planSetup.IsDoseValid)
+                            canModifyStructureSet = false; //dose is calculated and will not let you modify body or AssignedHU for structures
+                    }
+                    else
+                    {
+                        canModifyStructureSet = true; //no plans present
                     }
                 }
             }
@@ -55,29 +64,6 @@ namespace AutoRingSIB
                 course.Id = courseId;
                 return course;
             }
-        }
-
-        public static ExternalPlanSetup AddNewPlan(Course course, StructureSet structureSet, string planId)
-        {
-           try
-            {
-                var oldPlans = course.PlanSetups.Where(x => x.Id == planId);
-                if (oldPlans.Any())
-                {
-                    var plansToBeRemoved = oldPlans.ToArray();
-                    foreach (var p in plansToBeRemoved)
-                        course.RemovePlanSetup(p);
-}
-            }
-            catch
-            {
-                var message = string.Format("Could not cleanup old plans.");
-                throw new Exception(message);
-            }
-
-            ExternalPlanSetup plan = course.AddExternalPlanSetup(structureSet);           
-            plan.Id = planId;
-            return plan;
         }
 
         public static ExternalPlanSetup FindPlanSetup(Patient patient, string courseId, string planSetupId)
