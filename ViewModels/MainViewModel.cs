@@ -137,7 +137,7 @@ namespace AutoFlashIMRT
             InnerMargin100 = "-0.5";
             InnerMargin50 = "-1.5";
             LungOptMargin = "1.5";
-            StructureSets = await _esapiService.GetStructureSetsAsync();
+            StructureSets = await _esapiService.GetStructureSetsAsync();           
         }
 
         private async void GetStructures()
@@ -148,7 +148,7 @@ namespace AutoFlashIMRT
             StructuresPTVIMN = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "PTV");
         }
 
-        private async void CreateStructures()
+        private void CreateStructures()
         {
             string selectedStructureSetId = SelectedStructureSet?.StructureSetId;
             string ptvBreastId = SelectedStructurePTVBreast?.StructureId;
@@ -173,7 +173,7 @@ namespace AutoFlashIMRT
                 async progress =>
                 {
                     await _esapiService.AddStructuresAsync(selectedStructureSetId, ptvBreastId, ptvSCVId, ptvAxillaId, ptvIMNId, laterality, anteriorMargin, lateralMargin,
-                        outerMargin100, innerMargin100, outerMargin50, innerMargin50);
+                        outerMargin100, innerMargin100, outerMargin50, innerMargin50, lungOptMargin);
                 });
         }
     }

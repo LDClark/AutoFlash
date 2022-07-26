@@ -9,5 +9,6 @@ namespace AutoFlashIMRT
         public DateTime CreationDate { get; set; }
         public string StructureSetIdWithCreationDate { get; set; }
         public bool CanModify { get; set; }
+        public string Status { get; set; }
     }
 }

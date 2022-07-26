@@ -6,7 +6,8 @@
     xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     Title="AutoFlashIMRT"
     Height="900" Width="800"
-    WindowStartupLocation="CenterScreen" Background="#FF343434" >
+    WindowStartupLocation="CenterScreen" 
+    Background="#FF343434" >
     <Window.Resources>
         <CollectionViewSource x:Key="StructureSets" Source="{Binding StructureSets}">
             <CollectionViewSource.SortDescriptions>
@@ -104,7 +105,7 @@
             <Label Content="Lung opt margin (cm)" Grid.Column="0" Grid.Row="9" Margin="15,15,10,10" Foreground="White"/>
             <!--Input-->
             <ListBox
-                    x:Name="structureSetSelection"
+                    x:Name="StructureSetSelection"
                     Grid.Column="1" 
                     Grid.Row="0" 
                     Width="300" 
@@ -117,7 +118,6 @@
                     >
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="IsEnabled" Value="{Binding CanModify}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
@@ -155,6 +155,15 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <TextBox
+                    x:Name ="StructureSetStatus"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Text="{Binding SelectedStructureSet.Status}"
+                    Background="#FF343434"
+                    Foreground="Red"
+                    TextWrapping="Wrap"
+                    Width="200"/>
             <ListBox
                     x:Name="PTVBreastSelection"
                     Grid.Column="1" 
@@ -326,7 +335,7 @@
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding SelectedItem.CanModify, ElementName=structureSetSelection, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                        <DataTrigger Binding="{Binding SelectedValue.CanModify, ElementName=StructureSetSelection, UpdateSourceTrigger=PropertyChanged}" Value="False">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding SelectedItem.StructureId.Length, ElementName=PTVBreastSelection, UpdateSourceTrigger=PropertyChanged}" Value="0">
@@ -351,6 +360,9 @@
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Text.Length, ElementName=LungOptMarginText, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SelectedValue, ElementName=LateralityComboBox, UpdateSourceTrigger=PropertyChanged}" Value="">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                     </Style.Triggers>

@@ -20,8 +20,10 @@ namespace AutoFlashIMRT
                 return true;
         }
 
-        public static bool CheckStructureSet(Patient patient, StructureSet structureSet)
+        public static Tuple<bool, string> CheckStructureSet(Patient patient, StructureSet structureSet)
         {
+            var status = String.Empty;
+
             bool canModifyStructureSet = false;
             foreach (Course course in patient.Courses)
             {
@@ -31,8 +33,18 @@ namespace AutoFlashIMRT
                     {
                         if (course.CompletedDateTime == null) //course is active and can modify ss
                             canModifyStructureSet = true;
-                        if (planSetup.IsDoseValid)
-                            canModifyStructureSet = false; //dose is calculated and will not let you modify body or AssignedHU for structures
+                        else
+                        {
+                            canModifyStructureSet = false;
+                            status = string.Format("Course {0} containing linked plans is completed.  Change course status.", course.Id);
+                        }
+                        if (planSetup.IsDoseValid)  //dose is calculated and will not let you modify body or AssignedHU for structures
+                        {
+                            canModifyStructureSet = false;
+                            status = string.Format("Dose is calculated for this structure set.  Clear dose from plan {0}, " +
+                                "or create a new structure set if already treated.", planSetup.Id);
+                        }
+                            
                     }
                     else
                     {
@@ -40,7 +52,7 @@ namespace AutoFlashIMRT
                     }
                 }
             }
-            return canModifyStructureSet;
+            return Tuple.Create(canModifyStructureSet, status);
         }
 
         public static Course AddCourse(Patient patient, string courseId)
