@@ -222,14 +222,14 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <ListBox 
-                     x:Name="PTVIMNLowSelection"
+                     x:Name="PTVIMNSelection"
                      Grid.Column="1" 
                      Grid.Row="4" 
                      Width="300" 
                      Height="80"  
                      Margin="15,15,10,15" 
                      ItemsSource="{Binding Source={StaticResource StructuresPTVIMN}}"
-                     SelectedItem="{Binding StructuresPTVIMN, NotifyOnSourceUpdated=True}"
+                     SelectedItem="{Binding SelectedStructurePTVAxilla, NotifyOnSourceUpdated=True}"
                      IsSynchronizedWithCurrentItem="False"
                      SelectedIndex="-1"
                      Background="Black"
@@ -335,7 +335,7 @@
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding SelectedValue.CanModify, ElementName=StructureSetSelection, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                        <DataTrigger Binding="{Binding SelectedItem.CanModify, ElementName=StructureSetSelection, UpdateSourceTrigger=PropertyChanged}" Value="False">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding SelectedItem.StructureId.Length, ElementName=PTVBreastSelection, UpdateSourceTrigger=PropertyChanged}" Value="0">
@@ -362,7 +362,7 @@
                         <DataTrigger Binding="{Binding Text.Length, ElementName=LungOptMarginText, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding SelectedValue, ElementName=LateralityComboBox, UpdateSourceTrigger=PropertyChanged}" Value="">
+                        <DataTrigger Binding="{Binding SelectedItem, ElementName=LateralityComboBox, UpdateSourceTrigger=PropertyChanged}" Value="">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                     </Style.Triggers>
