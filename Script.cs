@@ -1,5 +1,5 @@
 using EsapiEssentials.Plugin;
-using AutoFlashIMRT;
+using AutoFlash;
 using VMS.TPS.Common.Model.API;
 
 [assembly: ESAPIScript(IsWriteable = true)]

@@ -1,10 +1,10 @@
 <Window
-    x:Class="AutoFlashIMRT.MainWindow"
+    x:Class="AutoFlash.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-    Title="AutoFlashIMRT"
+    Title="AutoFlash"
     Height="900" Width="800"
     WindowStartupLocation="CenterScreen" 
     Background="#FF343434" >
@@ -163,7 +163,9 @@
                     Background="#FF343434"
                     Foreground="Red"
                     TextWrapping="Wrap"
-                    Width="200"/>
+                    Height="80"
+                    Width="200"
+                    Margin="15,15,10,15" />
             <ListBox
                     x:Name="PTVBreastSelection"
                     Grid.Column="1" 
@@ -251,6 +253,7 @@
                         Grid.Row="5" 
                         Width="100" 
                         Height="30"  
+                        Margin="15,15,10,15" 
                         HorizontalAlignment="Left">
                 <ComboBoxItem Content="Left"/>
                 <ComboBoxItem Content="Right"/>
@@ -262,6 +265,7 @@
                 Grid.Row="6" 
                 Width="40" 
                 Height="30"  
+                Margin="15,15,10,15" 
                 Background="Black"
                 Foreground="White"
                 HorizontalAlignment="Left"
@@ -284,6 +288,7 @@
                 Grid.Row="7" 
                 Width="40" 
                 Height="30"  
+                Margin="15,15,10,15" 
                 Background="Black"
                 Foreground="White"
                 HorizontalAlignment="Left"
@@ -295,6 +300,7 @@
                 Grid.Row="8" 
                 Width="40" 
                 Height="30"  
+                Margin="15,15,10,15" 
                 Background="Black"
                 Foreground="White"
                 HorizontalAlignment="Left"
@@ -326,6 +332,7 @@
                 Grid.Row="9" 
                 Width="40" 
                 Height="30"  
+                Margin="15,15,10,15" 
                 Background="Black"
                 Foreground="White"
                 HorizontalAlignment="Left"

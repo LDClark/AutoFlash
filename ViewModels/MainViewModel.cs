@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace AutoFlashIMRT
+namespace AutoFlash
 {
     public class MainViewModel : ViewModelBase
     {
@@ -16,62 +16,62 @@ namespace AutoFlashIMRT
             _esapiService = esapiService;
             _dialogService = dialogService;
         }
-        private StructSet[] _structureSets;
-        public StructSet[] StructureSets
+        private StructureSetViewModel[] _structureSets;
+        public StructureSetViewModel[] StructureSets
         {
             get => _structureSets;
             set => Set(ref _structureSets, value);
         }
-        private StructSet _selectedStructureSet;
-        public StructSet SelectedStructureSet
+        private StructureSetViewModel _selectedStructureSet;
+        public StructureSetViewModel SelectedStructureSet
         {
             get => _selectedStructureSet;
             set => Set(ref _selectedStructureSet, value);
         }
-        private Struct[] _structuresPTVBreast;
-        public Struct[] StructuresPTVBreast
+        private StructureViewModel[] _structuresPTVBreast;
+        public StructureViewModel[] StructuresPTVBreast
         {
             get => _structuresPTVBreast;
             set => Set(ref _structuresPTVBreast, value);
         }
-        private Struct[] _structuresPTVSCV;
-        public Struct[] StructuresPTVSCV
+        private StructureViewModel[] _structuresPTVSCV;
+        public StructureViewModel[] StructuresPTVSCV
         {
             get => _structuresPTVSCV;
             set => Set(ref _structuresPTVSCV, value);
         }
-        private Struct[] _structuresPTVAxilla;
-        public Struct[] StructuresPTVAxilla
+        private StructureViewModel[] _structuresPTVAxilla;
+        public StructureViewModel[] StructuresPTVAxilla
         {
             get => _structuresPTVAxilla;
             set => Set(ref _structuresPTVAxilla, value);
         }
-        private Struct[] _structuresPTVIMN;
-        public Struct[] StructuresPTVIMN
+        private StructureViewModel[] _structuresPTVIMN;
+        public StructureViewModel[] StructuresPTVIMN
         {
             get => _structuresPTVIMN;
             set => Set(ref _structuresPTVIMN, value);
         }
-        private Struct _selectedStructurePTVBreast;
-        public Struct SelectedStructurePTVBreast
+        private StructureViewModel _selectedStructurePTVBreast;
+        public StructureViewModel SelectedStructurePTVBreast
         {
             get => _selectedStructurePTVBreast;
             set => Set(ref _selectedStructurePTVBreast, value);
         }
-        private Struct _selectedStructurePTVSCV;
-        public Struct SelectedStructurePTVSCV
+        private StructureViewModel _selectedStructurePTVSCV;
+        public StructureViewModel SelectedStructurePTVSCV
         {
             get => _selectedStructurePTVSCV;
             set => Set(ref _selectedStructurePTVSCV, value);
         }
-        private Struct _selectedStructurePTVAxilla;
-        public Struct SelectedStructurePTVAxilla
+        private StructureViewModel _selectedStructurePTVAxilla;
+        public StructureViewModel SelectedStructurePTVAxilla
         {
             get => _selectedStructurePTVAxilla;
             set => Set(ref _selectedStructurePTVAxilla, value);
         }
-        private Struct _selectedStructurePTVIMN;
-        public Struct SelectedStructurePTVIMN
+        private StructureViewModel _selectedStructurePTVIMN;
+        public StructureViewModel SelectedStructurePTVIMN
         {
             get => _selectedStructurePTVIMN;
             set => Set(ref _selectedStructurePTVIMN, value);

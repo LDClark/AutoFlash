@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VMS.TPS.Common.Model.API;
 
-namespace AutoFlashIMRT
+namespace AutoFlash
 {
     public static class Helpers
     {

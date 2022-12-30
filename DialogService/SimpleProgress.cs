@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoFlashIMRT
+namespace AutoFlash
 {
     public class SimpleProgress : ISimpleProgress
     {

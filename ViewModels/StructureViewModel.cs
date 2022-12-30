@@ -1,6 +1,6 @@
-namespace AutoFlashIMRT
+namespace AutoFlash
 {
-    public class Struct
+    public class StructureViewModel
     {
         public string StructureId { get; set; }
         public double StructureVolume { get; set; }

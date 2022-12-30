@@ -4,7 +4,7 @@ using EsapiEssentials.Plugin;
 using VMS.TPS.Common.Model.API;
 using System;
 
-namespace AutoFlashIMRT
+namespace AutoFlash
 {
     public class EsapiService : EsapiServiceBase<PluginScriptContext>, IEsapiService
     {
@@ -15,12 +15,12 @@ namespace AutoFlashIMRT
             _planGeneration = new StructureGeneration();
         }
 
-        public Task<StructSet[]> GetStructureSetsAsync() =>
+        public Task<StructureSetViewModel[]> GetStructureSetsAsync() =>
             RunAsync(context =>
             {
 
                 return context.Patient.StructureSets.Where(x => x.Id.Contains("CBCT") != true)
-                .Select(x => new StructSet
+                .Select(x => new StructureSetViewModel
                 {
                     CreationDate = x.HistoryDateTime,
                     ImageId = x.Image.Id,
@@ -32,12 +32,12 @@ namespace AutoFlashIMRT
                 .ToArray();
             });
 
-        public Task<Struct[]> GetStructureIdsAsync(string structureSet, string keyword) =>
+        public Task<StructureViewModel[]> GetStructureIdsAsync(string structureSet, string keyword) =>
             RunAsync(context =>
             {
                 var array = context.Patient.StructureSets?
                         .FirstOrDefault(x => x.Id == structureSet)
-                        .Structures.Where(x => x.Id.ToUpper().Contains(keyword.ToUpper()) == true).Select(x => new Struct
+                        .Structures.Where(x => x.Id.ToUpper().Contains(keyword.ToUpper()) == true).Select(x => new StructureViewModel
                         {
                             StructureId = x.Id,
                             StructureVolume = x.Volume,

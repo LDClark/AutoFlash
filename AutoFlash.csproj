@@ -8,8 +8,8 @@
     <ProjectGuid>{9E471C80-394E-4E7E-A485-62BD7F77644F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoFlashIMRT</RootNamespace>
-    <AssemblyName>AutoFlashIMRT_1.0.0.48.esapi</AssemblyName>
+    <RootNamespace>AutoFlash</RootNamespace>
+    <AssemblyName>AutoFlash_1.0.0.49.esapi</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -51,9 +51,6 @@
     </Reference>
     <Reference Include="EsapiEssentials, Version=2.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>packages\EsapiEssentials.2.0.0\lib\net45\EsapiEssentials.dll</HintPath>
-    </Reference>
-    <Reference Include="EsapiEssentials.PluginRunner, Version=2.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\EsapiEssentials.PluginRunner.2.0.0\lib\net45\EsapiEssentials.PluginRunner.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -103,9 +100,9 @@
     <Compile Include="DialogService\SimpleProgress.cs" />
     <Compile Include="Esapi\EsapiService.cs" />
     <Compile Include="Esapi\IEsapiService.cs" />
-    <Compile Include="Esapi\Plan.cs" />
-    <Compile Include="Esapi\Struct.cs" />
-    <Compile Include="Esapi\StructSet.cs" />
+    <Compile Include="ViewModels\PlanViewModel.cs" />
+    <Compile Include="ViewModels\StructureViewModel.cs" />
+    <Compile Include="ViewModels\StructureSetViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Helpers\Helpers.cs" />

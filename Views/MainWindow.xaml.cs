@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Interactivity;
 
-namespace AutoFlashIMRT
+namespace AutoFlash
 {
     public partial class MainWindow : Window
     {

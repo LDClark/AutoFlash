@@ -1,6 +1,6 @@
-﻿namespace AutoFlashIMRT
+﻿namespace AutoFlash
 {
-    public class Plan
+    public class PlanViewModel
     {
         public string CourseId { get; set; }
         public string PlanId { get; set; }

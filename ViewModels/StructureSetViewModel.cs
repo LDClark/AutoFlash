@@ -1,8 +1,8 @@
 using System;
 
-namespace AutoFlashIMRT
+namespace AutoFlash
 {
-    public class StructSet
+    public class StructureSetViewModel
     {
         public string ImageId { get; set; }
         public string StructureSetId { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace AutoFlashIMRT
+namespace AutoFlash
 {
     public class DialogService : IDialogService
     {

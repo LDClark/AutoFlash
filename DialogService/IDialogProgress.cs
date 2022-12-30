@@ -1,4 +1,4 @@
-﻿namespace AutoFlashIMRT
+﻿namespace AutoFlash
 {
     public interface ISimpleProgress
     {

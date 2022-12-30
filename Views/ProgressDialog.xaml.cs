@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace AutoFlashIMRT
+namespace AutoFlash
 {
     public partial class ProgressDialog : Window
     {
