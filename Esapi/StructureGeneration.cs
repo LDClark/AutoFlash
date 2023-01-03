@@ -10,13 +10,14 @@ namespace AutoFlash
     {
         public void CreateStructures(StructureSet structureSet, string ptvBreastId, string ptvSCVId, string ptvAxillaId, string ptvIMNId,
             string laterality, double anteriorMargin, double lateralMargin, double outerMargin100, double innerMargin100, double outerMargin50, double innerMargin50,
-            double lungOptMargin)
+            double lungOptMargin, string lungId)
         {
             structureSet.Patient.BeginModifications();
             Structure ptvBreast = structureSet.Structures.Where(structure => structure.Id == ptvBreastId).FirstOrDefault();
             Structure ptvSCV = structureSet.Structures.Where(structure => structure.Id == ptvSCVId).FirstOrDefault();
             Structure ptvAxilla = structureSet.Structures.Where(structure => structure.Id == ptvAxillaId).FirstOrDefault();
             Structure ptvIMN = structureSet.Structures.Where(structure => structure.Id == ptvIMNId).FirstOrDefault();
+            Structure lung = structureSet.Structures.Where(structure => structure.Id == lungId).FirstOrDefault();
 
             Structure ptvOpt;
             Structure ptvExp;
@@ -46,7 +47,7 @@ namespace AutoFlash
             string ptvMarginInner50Id = "Spacer 50%";
             string bodyCrop5mmPTVId = "Spacer in PTV";
             string lungMarginInnerId = "Spacer Lung";
-
+            
             if (structureSet.Structures.Any(x => x.Id == "BODY"))  //reset body to default parameters
             {
                 body = structureSet.Structures.Where(x => x.Id == "BODY").FirstOrDefault();
@@ -54,59 +55,20 @@ namespace AutoFlash
             }
             body = structureSet.CreateAndSearchBody(structureSet.GetDefaultSearchBodyParameters());
 
-            if (structureSet.Structures.Any(x => x.Id == ptvOptId))
-                ptvOpt = structureSet.Structures.Where(x => x.Id == ptvOptId).FirstOrDefault();
-            else
-                ptvOpt = structureSet.AddStructure("CONTROL", ptvOptId);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == ptvExpId))
-                ptvExp = structureSet.Structures.Where(x => x.Id == ptvExpId).FirstOrDefault();
-            else
-                ptvExp = structureSet.AddStructure("CONTROL", ptvExpId);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == ptvOptExpId))
-                ptvOptExp = structureSet.Structures.Where(x => x.Id == ptvOptExpId).FirstOrDefault();
-            else
-                ptvOptExp = structureSet.AddStructure("CONTROL", ptvOptExpId);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == CTHU0Id))
-                CTHU0 = structureSet.Structures.Where(x => x.Id == CTHU0Id).FirstOrDefault();
-            else
-                CTHU0 = structureSet.AddStructure("CONTROL", CTHU0Id);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == ring100Id))
-                ring100 = structureSet.Structures.Where(x => x.Id == ring100Id).FirstOrDefault();
-            else
-                ring100 = structureSet.AddStructure("CONTROL", ring100Id);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == ring50Id))
-                ring50 = structureSet.Structures.Where(x => x.Id == ring50Id).FirstOrDefault();
-            else
-                ring50 = structureSet.AddStructure("CONTROL", ring50Id);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == lungOptId))
-                lungOpt = structureSet.Structures.Where(x => x.Id == lungOptId).FirstOrDefault();
-            else
-                lungOpt = structureSet.AddStructure("CONTROL", lungOptId);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == bodyCrop5mmId))
-                bodyCrop5mm = structureSet.Structures.Where(x => x.Id == bodyCrop5mmId).FirstOrDefault();
-            else
-                bodyCrop5mm = structureSet.AddStructure("CONTROL", bodyCrop5mmId);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == bodyCrop2mmId))
-                bodyCrop2mm = structureSet.Structures.Where(x => x.Id == bodyCrop2mmId).FirstOrDefault();
-            else
-                bodyCrop2mm = structureSet.AddStructure("CONTROL", bodyCrop2mmId);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == ptvMarginInner100Id))
-                ptvMarginInner100 = structureSet.Structures.Where(x => x.Id == ptvMarginInner100Id).FirstOrDefault();
-            else
-                ptvMarginInner100 = structureSet.AddStructure("CONTROL", ptvMarginInner100Id);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == ptvMarginInner50Id))
-                ptvMarginInner50 = structureSet.Structures.Where(x => x.Id == ptvMarginInner50Id).FirstOrDefault();
-            else
-                ptvMarginInner50 = structureSet.AddStructure("CONTROL", ptvMarginInner50Id);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == bodyCrop5mmPTVId))
-                bodyCrop5mmPTV = structureSet.Structures.Where(x => x.Id == bodyCrop5mmPTVId).FirstOrDefault();
-            else
-                bodyCrop5mmPTV = structureSet.AddStructure("CONTROL", bodyCrop5mmPTVId);  //doesnt exist yet
-            if (structureSet.Structures.Any(x => x.Id == lungMarginInnerId))
-                lungMarginInner = structureSet.Structures.Where(x => x.Id == lungMarginInnerId).FirstOrDefault();
-            else
-                lungMarginInner = structureSet.AddStructure("CONTROL", lungMarginInnerId);  //doesnt exist yet
-           
+            ptvOpt = FindStructure(structureSet, ptvOptId);
+            ptvExp = FindStructure(structureSet, ptvExpId);
+            ptvOptExp = FindStructure(structureSet, ptvOptExpId);
+            CTHU0 = FindStructure(structureSet, CTHU0Id);
+            ring100 = FindStructure(structureSet, ring100Id);
+            ring50 = FindStructure(structureSet, ring50Id);
+            lungOpt = FindStructure(structureSet, lungOptId);
+            bodyCrop5mm = FindStructure(structureSet, bodyCrop5mmId);
+            bodyCrop2mm = FindStructure(structureSet, bodyCrop2mmId);
+            ptvMarginInner100 = FindStructure(structureSet, ptvMarginInner100Id);
+            ptvMarginInner50 = FindStructure(structureSet, ptvMarginInner50Id);
+            bodyCrop5mmPTV = FindStructure(structureSet, bodyCrop5mmPTVId);
+            lungMarginInner = FindStructure(structureSet, lungMarginInnerId);
+
             bodyCrop5mm.SegmentVolume = body.Margin(-5);
             bodyCrop5mm.SegmentVolume = body.Sub(bodyCrop5mm);
             bodyCrop2mm.SegmentVolume = body.Margin(-2);
@@ -127,20 +89,12 @@ namespace AutoFlash
             //bodyCrop2mm.SegmentVolume = body.Sub(bodyCrop2mm);
             //ptvExp.SegmentVolume = ptvExp.Sub(bodyCrop2mm);
             if (ptvSCV != null)
-            {
-                if (ptvSCV.IsEmpty != true)
-                    ptvOpt.SegmentVolume = ptvOpt.Or(ptvSCV);
-            }
+                ptvOpt.SegmentVolume = ptvOpt.Or(ptvSCV);
             if (ptvAxilla != null)
-            {
-                if (ptvAxilla.IsEmpty != true)
-                    ptvOpt.SegmentVolume = ptvOpt.Or(ptvAxilla);
-            }
+                ptvOpt.SegmentVolume = ptvOpt.Or(ptvAxilla);
             if (ptvIMN != null)
-            {
-                if (ptvIMN.IsEmpty != true)
-                    ptvOpt.SegmentVolume = ptvOpt.Or(ptvIMN);
-            }
+                ptvOpt.SegmentVolume = ptvOpt.Or(ptvIMN);
+
             ptvOptExp.SegmentVolume = ptvOpt.Or(ptvExp);
             ptvMarginInner100.SegmentVolume = ptvOptExp.Margin(-1 * innerMargin100);
             ptvMarginInner50.SegmentVolume = ptvOptExp.Margin(-1 * innerMargin50);
@@ -151,25 +105,12 @@ namespace AutoFlash
             ring100.SegmentVolume = ring100.And(body); // remove outside body
             ring50.SegmentVolume = ring50.And(body);
 
-            try // if lung right or left exists
-            {
-                if (laterality == "Left")
-                {
-                    Structure lungL = structureSet.Structures.Where(structure => structure.Id == "Lung_L").FirstOrDefault();
-                    lungMarginInner.SegmentVolume = ptvBreast.Margin(lungOptMargin);
-                    lungOpt.SegmentVolume = lungL.Sub(lungMarginInner);
-                }
-                if (laterality == "Right")
-                {
-                    Structure lungR = structureSet.Structures.Where(structure => structure.Id == "Lung_R").FirstOrDefault();
-                    lungMarginInner.SegmentVolume = ptvBreast.Margin(lungOptMargin);
-                    lungOpt.SegmentVolume = lungR.Sub(lungMarginInner);
-                }              
-            }
-            catch
-            {
-                structureSet.RemoveStructure(lungOpt);
-            }
+            if (lung != null)
+            {              
+                lungMarginInner.SegmentVolume = ptvBreast.Margin(lungOptMargin);
+                lungOpt.SegmentVolume = lung.Sub(lungMarginInner);
+            }         
+
             structureSet.RemoveStructure(bodyCrop2mm);
             structureSet.RemoveStructure(bodyCrop5mm);
             structureSet.RemoveStructure(ptvMarginInner100);
@@ -177,6 +118,17 @@ namespace AutoFlash
             structureSet.RemoveStructure(bodyCrop5mmPTV);
             structureSet.RemoveStructure(lungMarginInner);
             structureSet.RemoveStructure(ptvOptExp);
+        }
+
+        public Structure FindStructure(StructureSet structureSet, string id)
+        {
+            if (structureSet.Structures.Any(x => x.Id.ToUpper() == id.ToUpper()))
+                return structureSet.Structures.Where(x => x.Id.ToUpper() == id.ToUpper()).FirstOrDefault();
+            else
+            {
+                var structure = structureSet.AddStructure("CONTROL", id);  //doesnt exist yet
+                return structure;
+            }                             
         }
     }
 }

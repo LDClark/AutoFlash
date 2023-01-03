@@ -50,16 +50,16 @@ namespace AutoFlash
 
         public Task AddStructuresAsync(string selectedStructureSetId, string ptvBreastId, string ptvSCVId, string ptvAxillaId, string ptvIMNId,
             string laterality, double anteriorMargin, double lateralMargin, double outerMargin100, double innerMargin100, double outerMargin50, double innerMargin50,
-            double lungOptMargin) =>
+            double lungOptMargin, string lungId) =>
             RunAsync(context => AddStructures(context.Patient, selectedStructureSetId, ptvBreastId, ptvSCVId, ptvAxillaId, ptvIMNId, laterality, anteriorMargin, lateralMargin,
-                outerMargin100, innerMargin100, outerMargin50, innerMargin50, lungOptMargin));
+                outerMargin100, innerMargin100, outerMargin50, innerMargin50, lungOptMargin, lungId));
 
         public void AddStructures(Patient patient, string selectedStructureSetId, string ptvBreastId, string ptvSCVId, string ptvAxillaId, string ptvIMNId, string laterality,
-            double anteriorMargin, double lateralMargin, double outerMargin100, double innerMargin100, double outerMargin50, double innerMargin50, double lungOptMargin)
+            double anteriorMargin, double lateralMargin, double outerMargin100, double innerMargin100, double outerMargin50, double innerMargin50, double lungOptMargin, string lungId)
         {
             StructureSet structureSet = patient.StructureSets.FirstOrDefault(x => x.Id == selectedStructureSetId);
             _planGeneration.CreateStructures(structureSet, ptvBreastId, ptvSCVId, ptvAxillaId,ptvIMNId, laterality, anteriorMargin, lateralMargin, outerMargin100, innerMargin100,
-                outerMargin50, innerMargin50, lungOptMargin);           
+                outerMargin50, innerMargin50, lungOptMargin, lungId);           
         }
     }
 }

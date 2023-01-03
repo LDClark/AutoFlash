@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Windows.Interactivity;
 
 namespace AutoFlash
 {
@@ -7,7 +6,7 @@ namespace AutoFlash
     {
         public MainWindow()
         {
-            Interaction.GetBehaviors(this);
+            var trig = new Microsoft.Xaml.Behaviors.EventTrigger();  //to initialize behaviors
             InitializeComponent();
         }
     }

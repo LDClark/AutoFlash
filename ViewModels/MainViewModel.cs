@@ -1,5 +1,5 @@
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace AutoFlash
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ObservableObject
     {
         private readonly IEsapiService _esapiService;
         private readonly IDialogService _dialogService;
@@ -20,109 +20,121 @@ namespace AutoFlash
         public StructureSetViewModel[] StructureSets
         {
             get => _structureSets;
-            set => Set(ref _structureSets, value);
+            set => SetProperty(ref _structureSets, value);
         }
         private StructureSetViewModel _selectedStructureSet;
         public StructureSetViewModel SelectedStructureSet
         {
             get => _selectedStructureSet;
-            set => Set(ref _selectedStructureSet, value);
+            set => SetProperty(ref _selectedStructureSet, value);
         }
         private StructureViewModel[] _structuresPTVBreast;
         public StructureViewModel[] StructuresPTVBreast
         {
             get => _structuresPTVBreast;
-            set => Set(ref _structuresPTVBreast, value);
+            set => SetProperty(ref _structuresPTVBreast, value);
         }
         private StructureViewModel[] _structuresPTVSCV;
         public StructureViewModel[] StructuresPTVSCV
         {
             get => _structuresPTVSCV;
-            set => Set(ref _structuresPTVSCV, value);
+            set => SetProperty(ref _structuresPTVSCV, value);
         }
         private StructureViewModel[] _structuresPTVAxilla;
         public StructureViewModel[] StructuresPTVAxilla
         {
             get => _structuresPTVAxilla;
-            set => Set(ref _structuresPTVAxilla, value);
+            set => SetProperty(ref _structuresPTVAxilla, value);
         }
         private StructureViewModel[] _structuresPTVIMN;
         public StructureViewModel[] StructuresPTVIMN
         {
             get => _structuresPTVIMN;
-            set => Set(ref _structuresPTVIMN, value);
+            set => SetProperty(ref _structuresPTVIMN, value);
+        }
+        private StructureViewModel[] _structuresLung;
+        public StructureViewModel[] StructuresLung
+        {
+            get => _structuresLung;
+            set => SetProperty(ref _structuresLung, value);
         }
         private StructureViewModel _selectedStructurePTVBreast;
         public StructureViewModel SelectedStructurePTVBreast
         {
             get => _selectedStructurePTVBreast;
-            set => Set(ref _selectedStructurePTVBreast, value);
+            set => SetProperty(ref _selectedStructurePTVBreast, value);
         }
         private StructureViewModel _selectedStructurePTVSCV;
         public StructureViewModel SelectedStructurePTVSCV
         {
             get => _selectedStructurePTVSCV;
-            set => Set(ref _selectedStructurePTVSCV, value);
+            set => SetProperty(ref _selectedStructurePTVSCV, value);
         }
         private StructureViewModel _selectedStructurePTVAxilla;
         public StructureViewModel SelectedStructurePTVAxilla
         {
             get => _selectedStructurePTVAxilla;
-            set => Set(ref _selectedStructurePTVAxilla, value);
+            set => SetProperty(ref _selectedStructurePTVAxilla, value);
         }
         private StructureViewModel _selectedStructurePTVIMN;
         public StructureViewModel SelectedStructurePTVIMN
         {
             get => _selectedStructurePTVIMN;
-            set => Set(ref _selectedStructurePTVIMN, value);
+            set => SetProperty(ref _selectedStructurePTVIMN, value);
+        }
+        private StructureViewModel _selectedStructureLung;
+        public StructureViewModel SelectedStructureLung
+        {
+            get => _selectedStructureLung;
+            set => SetProperty(ref _selectedStructureLung, value);
         }
         private string _selectedLaterality;
         public string SelectedLaterality
         {
             get => _selectedLaterality;
-            set => Set(ref _selectedLaterality, value);
+            set => SetProperty(ref _selectedLaterality, value);
         }
         private string _anteriorMargin;
         public string AnteriorMargin
         {
             get => _anteriorMargin;
-            set => Set(ref _anteriorMargin, value);
+            set => SetProperty(ref _anteriorMargin, value);
         }
         private string _lateralMargin;
         public string LateralMargin
         {
             get => _lateralMargin;
-            set => Set(ref _lateralMargin, value);
+            set => SetProperty(ref _lateralMargin, value);
         }
         private string _outerMargin100;
         public string OuterMargin100
         {
             get => _outerMargin100;
-            set => Set(ref _outerMargin100, value);
+            set => SetProperty(ref _outerMargin100, value);
         }
         private string _innerMargin100;
         public string InnerMargin100
         {
             get => _innerMargin100;
-            set => Set(ref _innerMargin100, value);
+            set => SetProperty(ref _innerMargin100, value);
         }
         private string _outerMargin50;
         public string OuterMargin50
         {
             get => _outerMargin50;
-            set => Set(ref _outerMargin50, value);
+            set => SetProperty(ref _outerMargin50, value);
         }
         private string _innerMargin50;
         public string InnerMargin50
         {
             get => _innerMargin50;
-            set => Set(ref _innerMargin50, value);
+            set => SetProperty(ref _innerMargin50, value);
         }
         private string _lungOptMargin;
         public string LungOptMargin
         {
             get => _lungOptMargin;
-            set => Set(ref _lungOptMargin, value);
+            set => SetProperty(ref _lungOptMargin, value);
         }
         public ICommand StartCommand => new RelayCommand(Start);
         public ICommand GetStructuresCommand => new RelayCommand(GetStructures);
@@ -130,10 +142,10 @@ namespace AutoFlash
 
         private async void Start()
         {
-            AnteriorMargin = "1";
-            LateralMargin = "1";
-            OuterMargin100 = "3";
-            OuterMargin50 = "5";
+            AnteriorMargin = "1.0";
+            LateralMargin = "1.0";
+            OuterMargin100 = "3.0";
+            OuterMargin50 = "5.0";
             InnerMargin100 = "-0.5";
             InnerMargin50 = "-1.5";
             LungOptMargin = "1.5";
@@ -146,6 +158,7 @@ namespace AutoFlash
             StructuresPTVSCV = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "PTV");
             StructuresPTVAxilla = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "PTV");
             StructuresPTVIMN = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "PTV");
+            StructuresLung = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId, "Lung");
         }
 
         private void CreateStructures()
@@ -157,6 +170,7 @@ namespace AutoFlash
             string ptvIMNId = SelectedStructurePTVIMN?.StructureId;
 
             string laterality = SelectedLaterality;
+            string lungId = SelectedStructureLung?.StructureId;
 
             double anteriorMargin = Convert.ToDouble(AnteriorMargin) * 10;
             double lateralMargin = Convert.ToDouble(LateralMargin) * 10;
@@ -173,7 +187,7 @@ namespace AutoFlash
                 async progress =>
                 {
                     await _esapiService.AddStructuresAsync(selectedStructureSetId, ptvBreastId, ptvSCVId, ptvAxillaId, ptvIMNId, laterality, anteriorMargin, lateralMargin,
-                        outerMargin100, innerMargin100, outerMargin50, innerMargin50, lungOptMargin);
+                        outerMargin100, innerMargin100, outerMargin50, innerMargin50, lungOptMargin, lungId);
                 });
         }
     }

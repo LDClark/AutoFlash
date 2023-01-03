@@ -2,10 +2,10 @@
     x:Class="AutoFlash.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
     Title="AutoFlash"
-    Height="900" Width="800"
+    Height="975" Width="900"
     WindowStartupLocation="CenterScreen" 
     Background="#FF343434" >
     <Window.Resources>
@@ -30,6 +30,11 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <CollectionViewSource x:Key="StructuresPTVIMN" Source="{Binding StructuresPTVIMN}">
+            <CollectionViewSource.SortDescriptions>
+                <cm:SortDescription PropertyName="StructureId" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="StructuresLung" Source="{Binding StructuresLung}">
             <CollectionViewSource.SortDescriptions>
                 <cm:SortDescription PropertyName="StructureId" />
             </CollectionViewSource.SortDescriptions>
@@ -62,11 +67,11 @@
         </Style>
 
     </Window.Resources>
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding StartCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+    <Behaviors:Interaction.Triggers>
+        <Behaviors:EventTrigger EventName="Loaded">
+            <Behaviors:InvokeCommandAction Command="{Binding StartCommand}" />
+        </Behaviors:EventTrigger>
+    </Behaviors:Interaction.Triggers>
     <StackPanel>
         <Grid>
             <!--Row and column definitions (2x2 grid)-->
@@ -96,6 +101,7 @@
             <Label Content="Select PTV Axilla" Grid.Column="0" Grid.Row="3" Margin="15,15,10,10" Foreground="White"/>
             <Label Content="Select PTV IMN" Grid.Column="0" Grid.Row="4" Margin="15,15,10,10" Foreground="White"/>
             <Label Content="Laterality" Grid.Column="0" Grid.Row="5" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Ipsilateral Lung" Grid.Column="2" Grid.Row="5" Margin="15,15,10,10" Foreground="White"/>
             <Label Content="Anterior margin (cm)" Grid.Column="0" Grid.Row="6" Margin="15,15,10,10" Foreground="White"/>
             <Label Content="Lateral margin (cm)" Grid.Column="2" Grid.Row="6" Margin="15,15,10,10" Foreground="White"/>
             <Label Content="Ring 100% outer margin (cm)" Grid.Column="0" Grid.Row="7" Margin="15,15,10,10" Foreground="White"/>
@@ -144,11 +150,11 @@
                         </Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SourceUpdated">
-                        <i:InvokeCommandAction Command="{Binding GetStructuresCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <Behaviors:Interaction.Triggers>
+                    <Behaviors:EventTrigger EventName="SourceUpdated">
+                        <Behaviors:InvokeCommandAction Command="{Binding GetStructuresCommand}" />
+                    </Behaviors:EventTrigger>
+                </Behaviors:Interaction.Triggers>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding StructureSetIdWithCreationDate}" />
@@ -175,6 +181,7 @@
                     Margin="15,15,10,15" 
                     ItemsSource="{Binding Source={StaticResource StructuresPTVBreast}}"
                     SelectedItem="{Binding SelectedStructurePTVBreast, NotifyOnSourceUpdated=True}"
+                    IsSynchronizedWithCurrentItem="False"
                     Background="Black"
                     Foreground="White">
                 <ListBox.ItemTemplate>
@@ -231,13 +238,12 @@
                      Height="80"  
                      Margin="15,15,10,15" 
                      ItemsSource="{Binding Source={StaticResource StructuresPTVIMN}}"
-                     SelectedItem="{Binding SelectedStructurePTVAxilla, NotifyOnSourceUpdated=True}"
+                     SelectedItem="{Binding SelectedStructurePTVIMN, NotifyOnSourceUpdated=True}"
                      IsSynchronizedWithCurrentItem="False"
                      SelectedIndex="-1"
                      Background="Black"
                      Foreground="White"
                      >
-
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding StructureId}" />
@@ -249,6 +255,7 @@
                         SelectedValue="{Binding SelectedLaterality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   
                         SelectedValuePath = "Content"
                         Background="Black"
+                        VerticalContentAlignment="Center"
                         Grid.Column="1" 
                         Grid.Row="5" 
                         Width="100" 
@@ -257,6 +264,21 @@
                         HorizontalAlignment="Left">
                 <ComboBoxItem Content="Left"/>
                 <ComboBoxItem Content="Right"/>
+            </ComboBox>
+            <ComboBox x:Name="LungComboBox"
+                        FontSize="12"
+                        ItemsSource="{Binding Source={StaticResource StructuresLung}}"
+                        DisplayMemberPath="StructureId"
+                        SelectedItem="{Binding SelectedStructureLung, NotifyOnSourceUpdated=True}"  
+                        IsSynchronizedWithCurrentItem="False"
+                        Background="Black"
+                        VerticalContentAlignment="Center"
+                        Grid.Column="3" 
+                        Grid.Row="5" 
+                        Width="100" 
+                        Height="30"  
+                        Margin="15,15,10,15" 
+                        HorizontalAlignment="Left">
             </ComboBox>
             <TextBox
                 Name="AnteriorMarginText"
@@ -277,6 +299,7 @@
                 Grid.Row="6" 
                 Width="40" 
                 Height="30"  
+                Margin="15,15,10,15" 
                 Background="Black"
                 Foreground="White"
                 HorizontalAlignment="Left"
@@ -312,8 +335,10 @@
                 Grid.Row="7" 
                 Width="40" 
                 Height="30"  
+                Margin="15,15,10,15" 
                 Background="Black"
                 Foreground="White"
+                HorizontalAlignment="Left"
                 />
             <TextBox
                 Name="InnerMargin50Text"
@@ -322,8 +347,10 @@
                 Grid.Row="8" 
                 Width="40" 
                 Height="30"  
+                Margin="15,15,10,15" 
                 Background="Black"
                 Foreground="White"
+                HorizontalAlignment="Left"
                 />
             <TextBox
                 Name="LungOptMarginText"
@@ -338,14 +365,11 @@
                 HorizontalAlignment="Left"
                 />
         </Grid>
-        <Button x:Name="m_okButton"  Content="Create" Width="100" Margin="15" Command="{Binding CreateStructuresCommand}">
+        <Button x:Name="m_okButton" Content="Create" Width="100" Margin="15" Command="{Binding CreateStructuresCommand}">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding SelectedItem.CanModify, ElementName=StructureSetSelection, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding SelectedItem.StructureId.Length, ElementName=PTVBreastSelection, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=PTVBreastSelection, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Text.Length, ElementName=AnteriorMarginText, UpdateSourceTrigger=PropertyChanged}" Value="0">
@@ -369,7 +393,7 @@
                         <DataTrigger Binding="{Binding Text.Length, ElementName=LungOptMarginText, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding SelectedItem, ElementName=LateralityComboBox, UpdateSourceTrigger=PropertyChanged}" Value="">
+                        <DataTrigger Binding="{Binding Text.Length, ElementName=LateralityComboBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                     </Style.Triggers>
