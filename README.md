@@ -1,4 +1,4 @@
-# AutoFlashIMRT
+# AutoFlash
 
 A read/write ESAPI script to generate volumes for IMRT/VMAT planning or breast or chestwall.
 
