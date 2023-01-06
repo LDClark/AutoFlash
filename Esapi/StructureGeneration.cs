@@ -19,34 +19,7 @@ namespace AutoFlash
             Structure ptvIMN = structureSet.Structures.Where(structure => structure.Id == ptvIMNId).FirstOrDefault();
             Structure lung = structureSet.Structures.Where(structure => structure.Id == lungId).FirstOrDefault();
 
-            Structure ptvOpt;
-            Structure ptvExp;
-            Structure ptvOptExp;
-            Structure CTHU0;
-            Structure ring100;
-            Structure ring50;
-            Structure lungOpt;
-            Structure bodyCrop5mm;
-            Structure bodyCrop2mm;
-            Structure ptvMarginInner100;
-            Structure ptvMarginInner50;
-            Structure bodyCrop5mmPTV;
-            Structure lungMarginInner;
             Structure body;
-
-            string ptvOptId = "PTV_opt";
-            string ptvExpId = "PTV_exp";
-            string ptvOptExpId = "PTV_opt+exp";
-            string CTHU0Id = "CT HU = 0";
-            string ring100Id = "Ring_100%";
-            string ring50Id = "Ring_50%";
-            string lungOptId = "Lung_opt";
-            string bodyCrop5mmId = "Spacer 5mm";
-            string bodyCrop2mmId = "Spacer 2mm";
-            string ptvMarginInner100Id = "Spacer 100%";
-            string ptvMarginInner50Id = "Spacer 50%";
-            string bodyCrop5mmPTVId = "Spacer in PTV";
-            string lungMarginInnerId = "Spacer Lung";
             
             if (structureSet.Structures.Any(x => x.Id == "BODY"))  //reset body to default parameters
             {
@@ -55,19 +28,20 @@ namespace AutoFlash
             }
             body = structureSet.CreateAndSearchBody(structureSet.GetDefaultSearchBodyParameters());
 
-            ptvOpt = FindStructure(structureSet, ptvOptId);
-            ptvExp = FindStructure(structureSet, ptvExpId);
-            ptvOptExp = FindStructure(structureSet, ptvOptExpId);
-            CTHU0 = FindStructure(structureSet, CTHU0Id);
-            ring100 = FindStructure(structureSet, ring100Id);
-            ring50 = FindStructure(structureSet, ring50Id);
-            lungOpt = FindStructure(structureSet, lungOptId);
-            bodyCrop5mm = FindStructure(structureSet, bodyCrop5mmId);
-            bodyCrop2mm = FindStructure(structureSet, bodyCrop2mmId);
-            ptvMarginInner100 = FindStructure(structureSet, ptvMarginInner100Id);
-            ptvMarginInner50 = FindStructure(structureSet, ptvMarginInner50Id);
-            bodyCrop5mmPTV = FindStructure(structureSet, bodyCrop5mmPTVId);
-            lungMarginInner = FindStructure(structureSet, lungMarginInnerId);
+            Structure ptvOpt = FindStructure(structureSet, "PTV_opt");
+            Structure ptvExp = FindStructure(structureSet, "PTV_exp");
+            Structure ptvOptExp = FindStructure(structureSet, "PTV_opt+exp");
+            Structure CTHU0 = FindStructure(structureSet, "CT HU = 0");
+            Structure ring100 = FindStructure(structureSet, "Ring_100%");
+            Structure ring50 = FindStructure(structureSet, "Ring_50%");
+            Structure lungOpt = FindStructure(structureSet, "Lung_opt");
+            Structure bodyCrop5mm = FindStructure(structureSet, "Spacer 5mm");
+            Structure bodyCrop2mm = FindStructure(structureSet, "Spacer 2mm");
+            Structure ptvMarginInner100 = FindStructure(structureSet, "Spacer 100%");
+            Structure ptvMarginInner50 = FindStructure(structureSet, "Spacer 50%");
+            Structure bodyCrop5mmPTV = FindStructure(structureSet, "Spacer in PTV");
+            Structure lungMarginInner = FindStructure(structureSet, "Spacer Lung"); 
+            Structure ptvExpSpacer = FindStructure(structureSet, "Spacer PTV_exp");  //fill in the holes in PTV_exp
 
             bodyCrop5mm.SegmentVolume = body.Margin(-5);
             bodyCrop5mm.SegmentVolume = body.Sub(bodyCrop5mm);
@@ -76,18 +50,22 @@ namespace AutoFlash
 
             ptvOpt.SegmentVolume = ptvBreast.Sub(bodyCrop5mm);     
             if (laterality == "Left")
+            {
                 CTHU0.SegmentVolume = ptvBreast.AsymmetricMargin(new AxisAlignedMargins(StructureMarginGeometry.Outer, 0, anteriorMargin, 0, lateralMargin, 0, 0));
+                ptvExpSpacer.SegmentVolume = CTHU0.AsymmetricMargin(new AxisAlignedMargins(StructureMarginGeometry.Outer, 3, 0, 3, 0, 0, 0));
+            }           
             if (laterality == "Right")
-                CTHU0.SegmentVolume = ptvBreast.AsymmetricMargin(new AxisAlignedMargins(StructureMarginGeometry.Outer, lateralMargin, anteriorMargin, 0, 0, 0, 0));
-            //CTHU0.ConvertToHighResolution();
+            {
+                CTHU0.SegmentVolume = ptvBreast.AsymmetricMargin(new AxisAlignedMargins(StructureMarginGeometry.Outer, anteriorMargin, 0, lateralMargin, 0, 0, 0));
+                ptvExpSpacer.SegmentVolume = CTHU0.AsymmetricMargin(new AxisAlignedMargins(StructureMarginGeometry.Outer, 0, 3, 0, 3, 0, 0));
+            }
+                
             CTHU0.SetAssignedHU(0);
             CTHU0.SegmentVolume = CTHU0.Sub(body);
             ptvExp.SegmentVolume = CTHU0.Or(ptvBreast);
-            //ptvExp.ConvertToHighResolution();
+            ptvExp.SegmentVolume = ptvExp.Or(ptvExpSpacer);
             body.SegmentVolume = body.Or(CTHU0);
-            //bodyCrop2mm.SegmentVolume = body.Margin(-2);
-            //bodyCrop2mm.SegmentVolume = body.Sub(bodyCrop2mm);
-            //ptvExp.SegmentVolume = ptvExp.Sub(bodyCrop2mm);
+            
             if (ptvSCV != null)
                 ptvOpt.SegmentVolume = ptvOpt.Or(ptvSCV);
             if (ptvAxilla != null)
@@ -118,6 +96,7 @@ namespace AutoFlash
             structureSet.RemoveStructure(bodyCrop5mmPTV);
             structureSet.RemoveStructure(lungMarginInner);
             structureSet.RemoveStructure(ptvOptExp);
+            structureSet.RemoveStructure(ptvExpSpacer);
         }
 
         public Structure FindStructure(StructureSet structureSet, string id)

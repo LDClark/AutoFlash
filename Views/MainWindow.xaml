@@ -96,7 +96,7 @@
             </Grid.ColumnDefinitions>
             <!--Labels-->
             <Label Content="Select structure set" Grid.Column="0" Grid.Row="0" Margin="15,15,10,10" Foreground="White"/>
-            <Label Content="Select PTV Breast" Grid.Column="0" Grid.Row="1" Margin="15,15,10,10" Foreground="White"/>
+            <Label Content="Select PTV Breast/CW" Grid.Column="0" Grid.Row="1" Margin="15,15,10,10" Foreground="White"/>
             <Label Content="Select PTV SCV" Grid.Column="0" Grid.Row="2" Margin="15,15,10,10" Foreground="White"/>
             <Label Content="Select PTV Axilla" Grid.Column="0" Grid.Row="3" Margin="15,15,10,10" Foreground="White"/>
             <Label Content="Select PTV IMN" Grid.Column="0" Grid.Row="4" Margin="15,15,10,10" Foreground="White"/>

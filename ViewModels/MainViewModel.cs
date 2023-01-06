@@ -145,7 +145,7 @@ namespace AutoFlash
             AnteriorMargin = "1.0";
             LateralMargin = "1.0";
             OuterMargin100 = "3.0";
-            OuterMargin50 = "5.0";
+            OuterMargin50 = "4.0";
             InnerMargin100 = "-0.5";
             InnerMargin50 = "-1.5";
             LungOptMargin = "1.5";
@@ -168,18 +168,15 @@ namespace AutoFlash
             string ptvSCVId = SelectedStructurePTVSCV?.StructureId;
             string ptvAxillaId = SelectedStructurePTVAxilla?.StructureId;
             string ptvIMNId = SelectedStructurePTVIMN?.StructureId;
-
             string laterality = SelectedLaterality;
             string lungId = SelectedStructureLung?.StructureId;
 
             double anteriorMargin = Convert.ToDouble(AnteriorMargin) * 10;
             double lateralMargin = Convert.ToDouble(LateralMargin) * 10;
-
             double innerMargin100 = Convert.ToDouble(InnerMargin100) * 10;
             double outerMargin100 = Convert.ToDouble(OuterMargin100) * 10;
             double innerMargin50 = Convert.ToDouble(InnerMargin50) * 10;
             double outerMargin50 = Convert.ToDouble(OuterMargin50) * 10;
-
             double lungOptMargin = Convert.ToDouble(LungOptMargin) * 10;
 
 
