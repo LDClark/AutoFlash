@@ -18,54 +18,51 @@ namespace AutoFlash
             Structure ptvAxilla = structureSet.Structures.Where(structure => structure.Id == ptvAxillaId).FirstOrDefault();
             Structure ptvIMN = structureSet.Structures.Where(structure => structure.Id == ptvIMNId).FirstOrDefault();
             Structure lung = structureSet.Structures.Where(structure => structure.Id == lungId).FirstOrDefault();
-
             Structure body;
-            
-            if (structureSet.Structures.Any(x => x.Id == "BODY"))  //reset body to default parameters
+
+            //reset body to default parameters
+            if (structureSet.Structures.Any(x => x.Id == "BODY"))
             {
                 body = structureSet.Structures.Where(x => x.Id == "BODY").FirstOrDefault();
                 structureSet.RemoveStructure(body);
             }
             body = structureSet.CreateAndSearchBody(structureSet.GetDefaultSearchBodyParameters());
 
+            //planning structures
             Structure ptvOpt = FindStructure(structureSet, "PTV_opt");
             Structure ptvExp = FindStructure(structureSet, "PTV_exp");
-            Structure ptvOptExp = FindStructure(structureSet, "PTV_opt+exp");
             Structure CTHU0 = FindStructure(structureSet, "CT HU = 0");
             Structure ring100 = FindStructure(structureSet, "Ring_100%");
             Structure ring50 = FindStructure(structureSet, "Ring_50%");
             Structure lungOpt = FindStructure(structureSet, "Lung_opt");
-            Structure bodyCrop5mm = FindStructure(structureSet, "Spacer 5mm");
-            Structure bodyCrop2mm = FindStructure(structureSet, "Spacer 2mm");
-            Structure ptvMarginInner100 = FindStructure(structureSet, "Spacer 100%");
-            Structure ptvMarginInner50 = FindStructure(structureSet, "Spacer 50%");
-            Structure bodyCrop5mmPTV = FindStructure(structureSet, "Spacer in PTV");
-            Structure lungMarginInner = FindStructure(structureSet, "Spacer Lung"); 
+
+            //intermediate structures
+            Structure ptvOptExp = FindStructure(structureSet, "PTV_opt+exp");
             Structure ptvExpSpacer = FindStructure(structureSet, "Spacer PTV_exp");  //fill in the holes in PTV_exp
 
-            bodyCrop5mm.SegmentVolume = body.Margin(-5);
-            bodyCrop5mm.SegmentVolume = body.Sub(bodyCrop5mm);
-            bodyCrop2mm.SegmentVolume = body.Margin(-2);
-            bodyCrop2mm.SegmentVolume = body.Sub(bodyCrop2mm);
-
-            ptvOpt.SegmentVolume = ptvBreast.Sub(bodyCrop5mm);     
             if (laterality == "Left")
             {
                 CTHU0.SegmentVolume = ptvBreast.AsymmetricMargin(new AxisAlignedMargins(StructureMarginGeometry.Outer, 0, anteriorMargin, 0, lateralMargin, 0, 0));
+                CTHU0.SegmentVolume = CTHU0.Sub(body); // remove CTHU0 portion that is inside body
                 ptvExpSpacer.SegmentVolume = CTHU0.AsymmetricMargin(new AxisAlignedMargins(StructureMarginGeometry.Outer, 3, 0, 3, 0, 0, 0));
-            }           
+            }
             if (laterality == "Right")
             {
                 CTHU0.SegmentVolume = ptvBreast.AsymmetricMargin(new AxisAlignedMargins(StructureMarginGeometry.Outer, anteriorMargin, 0, lateralMargin, 0, 0, 0));
+                CTHU0.SegmentVolume = CTHU0.Sub(body); // remove CTHU0 portion that is inside body
                 ptvExpSpacer.SegmentVolume = CTHU0.AsymmetricMargin(new AxisAlignedMargins(StructureMarginGeometry.Outer, 0, 3, 0, 3, 0, 0));
             }
-                
+
+            ptvOpt = Crop(structureSet, -5, true, ptvOpt, ptvBreast, body); // crop 5mm inside body surface
             CTHU0.SetAssignedHU(0);
-            CTHU0.SegmentVolume = CTHU0.Sub(body);
-            ptvExp.SegmentVolume = CTHU0.Or(ptvBreast);
-            ptvExp.SegmentVolume = ptvExp.Or(ptvExpSpacer);
-            body.SegmentVolume = body.Or(CTHU0);
             
+            ptvExp.SegmentVolume = CTHU0.Or(ptvBreast); // combine CTHU0 with ptvBreast
+            ptvExp.SegmentVolume = ptvExp.Or(ptvExpSpacer); // combine to fill in holes between CTHU0 and ptvBreast
+            body.SegmentVolume = body.Or(ptvExp); // combine body with ptvExp
+            ptvExp.SegmentVolume = ptvExp.And(body);  // remove ptvExp outside body
+            ptvExp = Crop(structureSet, -2, true, ptvExp, ptvExp, body);  // crop 2mm inside body surface
+
+            // combine other ptvs with ptvOpt
             if (ptvSCV != null)
                 ptvOpt.SegmentVolume = ptvOpt.Or(ptvSCV);
             if (ptvAxilla != null)
@@ -73,28 +70,16 @@ namespace AutoFlash
             if (ptvIMN != null)
                 ptvOpt.SegmentVolume = ptvOpt.Or(ptvIMN);
 
-            ptvOptExp.SegmentVolume = ptvOpt.Or(ptvExp);
-            ptvMarginInner100.SegmentVolume = ptvOptExp.Margin(-1 * innerMargin100);
-            ptvMarginInner50.SegmentVolume = ptvOptExp.Margin(-1 * innerMargin50);
-            ring100.SegmentVolume = ptvOptExp.Margin(outerMargin100);
-            ring50.SegmentVolume = ptvOptExp.Margin(outerMargin50);
-            ring100.SegmentVolume = ring100.Sub(ptvMarginInner100);           
-            ring50.SegmentVolume = ring50.Sub(ptvMarginInner50);
+            ptvOptExp.SegmentVolume = ptvOpt.Or(ptvExp);  //combine ptvOpt and ptvExp to create ptvOptExp
+            ring100 = ExtractWall(structureSet, outerMargin100, innerMargin100, ring100, ptvOptExp);
             ring100.SegmentVolume = ring100.And(body); // remove outside body
-            ring50.SegmentVolume = ring50.And(body);
+            ring50 = ExtractWall(structureSet, outerMargin50, innerMargin50, ring50, ptvOptExp);
+            ring50.SegmentVolume = ring50.And(body); // remove outside body
 
             if (lung != null)
-            {              
-                lungMarginInner.SegmentVolume = ptvBreast.Margin(lungOptMargin);
-                lungOpt.SegmentVolume = lung.Sub(lungMarginInner);
-            }         
+                lungOpt = Crop(structureSet, lungOptMargin, false, lungOpt, lung, ptvOptExp);
 
-            structureSet.RemoveStructure(bodyCrop2mm);
-            structureSet.RemoveStructure(bodyCrop5mm);
-            structureSet.RemoveStructure(ptvMarginInner100);
-            structureSet.RemoveStructure(ptvMarginInner50);
-            structureSet.RemoveStructure(bodyCrop5mmPTV);
-            structureSet.RemoveStructure(lungMarginInner);
+            //remove intermediate structures
             structureSet.RemoveStructure(ptvOptExp);
             structureSet.RemoveStructure(ptvExpSpacer);
         }
@@ -107,7 +92,52 @@ namespace AutoFlash
             {
                 var structure = structureSet.AddStructure("CONTROL", id);  //doesnt exist yet
                 return structure;
-            }                             
+            }
+        }
+
+        public Structure Crop(StructureSet structureSet, double cropMargin, bool removeOutside, Structure targetStructure, Structure structureToCrop, Structure structureToCropFrom)
+        {
+            Structure spacer = FindStructure(structureSet, "Spacer");
+            spacer.SegmentVolume = LargeMargin(structureToCropFrom.SegmentVolume, cropMargin);
+
+            if (removeOutside)
+                spacer.SegmentVolume = structureToCropFrom.Sub(spacer);
+
+            targetStructure.SegmentVolume = structureToCrop.Sub(spacer);
+            structureSet.RemoveStructure(spacer);
+            return targetStructure;
+        }
+
+        public Structure ExtractWall(StructureSet structureSet, double outerWallMargin, double innerWallMargin, Structure targetStructure, Structure structureToExtractFrom)
+        {
+            Structure spacer = FindStructure(structureSet, "Spacer");
+            targetStructure.SegmentVolume = LargeMargin(structureToExtractFrom.SegmentVolume, outerWallMargin);
+            spacer.SegmentVolume = LargeMargin(structureToExtractFrom.SegmentVolume, -1 * innerWallMargin);
+            targetStructure.SegmentVolume = targetStructure.Sub(spacer);
+            structureSet.RemoveStructure(spacer);
+            return targetStructure;
+        }
+
+        public static SegmentVolume LargeMargin(SegmentVolume base_segment, double base_margin)
+        {
+            if (base_margin != 0)
+            {
+                double mmLeft;
+                if (Math.Abs(base_margin) < 50)
+                    return base_segment.Margin(base_margin);
+                else
+                    mmLeft = base_margin;
+                SegmentVolume targetLeft = base_segment;
+                while (mmLeft > 50)
+                {
+                    mmLeft -= 50;
+                    targetLeft = targetLeft.Margin(50);
+                }
+                SegmentVolume result = targetLeft.Margin(mmLeft);
+                return result;
+            }
+            else
+                return base_segment;
         }
     }
 }
